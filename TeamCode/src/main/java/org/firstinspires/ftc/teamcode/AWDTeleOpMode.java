@@ -28,6 +28,8 @@ public class AWDTeleOpMode extends LinearOpMode {
     double finalRight;
     double slowSpeed = 0.25;
     double fastSpeed = 0.75;
+    //code for the shovels
+    //boolean switchSides;
 
     @Override
     public void runOpMode() {
@@ -103,6 +105,16 @@ public class AWDTeleOpMode extends LinearOpMode {
             telemetry.addData("Say", "Running at " + modifierVal + " times speed");
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.update();
+
+            /* code for the shovels
+            if(gamepad1.dpad_up) {
+                switchSides = !switchSides;
+            }
+            if(switchSides){
+                finalLeft = -finalLeft;
+                finalRight = -finalRight;
+            }
+            */
 
 
 
