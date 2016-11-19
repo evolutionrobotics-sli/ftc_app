@@ -11,7 +11,7 @@ import java.lang.reflect.Modifier;
 
 
 @TeleOp(name="AWDOpMode", group="TankOpMode")  // @Autonomous(...) is the other common choice
-public class AWDTeleOpMode extends LinearOpMode {
+public class AWDTeleOpTankMode extends LinearOpMode {
 
     //hi its gaurav
     //this is my tank teleop

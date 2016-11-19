@@ -55,7 +55,7 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
  */
 
 @TeleOp(name="InvertedOpMode", group="Pushbot")
-
+@Disabled
 public class InvertedTankTeleOp extends OpMode{
 
     /* Declare OpMode members. */
