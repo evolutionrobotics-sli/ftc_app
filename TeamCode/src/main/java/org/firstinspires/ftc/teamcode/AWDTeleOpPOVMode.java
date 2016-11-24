@@ -10,9 +10,12 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import java.lang.reflect.Modifier;
 
 
-@TeleOp(name=" ", group=" ")  // @Autonomous(...) is the other common choice
+@TeleOp(name="Final POV Mode for 2nd comp", group="Competition")  // @Autonomous(...) is the other common choice
 public class AWDTeleOpPOVMode extends LinearOpMode {
 
+    /** Evolution Robotics
+     * POV Teleop w/ speed switches
+     */
     //POV TELEOP
     //!!!!!!!!!!
     //hi its gaurav
@@ -24,13 +27,14 @@ public class AWDTeleOpPOVMode extends LinearOpMode {
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor motorFL, motorBL, motorFR, motorBR;
-    double modifierVal = 1;
+    double modifierVal = 0.75;
     boolean runFast, runSlow;
     double left, left2;
     double right, right2;
     double max;
     double slowSpeed = 0.25;
-    double fastSpeed = 0.75;
+    double fastSpeed = 1;
+    double restingSpeed = 0.75;
     //code for the shovels
     //boolean switchSides;
 
@@ -74,30 +78,41 @@ public class AWDTeleOpPOVMode extends LinearOpMode {
             }
              */
             //change controls if you want
+
+            //boolean switches for fast/slow
+            //fast
             if(gamepad1.right_bumper) {
                 runFast = !runFast;
             }
 
+            //slow
             if(gamepad1.left_bumper) {
                 runSlow = !runSlow;
             }
 
+            //changing speed + resetting the switch, etc.
+            //running fast
             if(runFast) {
-                if(modifierVal == 1) {
+                if(modifierVal == restingSpeed) {
                     modifierVal = fastSpeed;
                 }
-                else{
-                    modifierVal = 1;
+                else {
+                    modifierVal = restingSpeed;
+                    runSlow = false;
                 }
+                runFast = !runFast;
             }
 
+            //running slow
             if(runSlow) {
-                if(modifierVal == 1) {
+                if(modifierVal == restingSpeed) {
                     modifierVal = slowSpeed;
                 }
                 else{
-                    modifierVal = 1;
+                    modifierVal = restingSpeed;
+                    runFast = false;
                 }
+                runSlow = !runSlow;
             }
 
             //calculates the final value going to the motors
@@ -114,7 +129,6 @@ public class AWDTeleOpPOVMode extends LinearOpMode {
                 right2 /= max;
             }
 
-
             //adds a telemetry message telling what speed you are going at
             telemetry.addData("Say", "Running at " + modifierVal + " times speed");
             telemetry.addData("Status", "Run Time: " + runtime.toString());
@@ -129,6 +143,7 @@ public class AWDTeleOpPOVMode extends LinearOpMode {
                 right2 = -right2;
             }
             */
+
 
 
             //setting motor powers
