@@ -1,17 +1,13 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import java.lang.reflect.Modifier;
 
-
-@TeleOp(name="PovMode", group="Competition")  // @Autonomous(...) is the other common choice
-public class AWDTeleOpPOVMode extends LinearOpMode {
+@TeleOp(name="MecanumWheelDrive", group="Testing")  // @Autonomous(...) is the other common choice
+public class MecanumWheelDrive extends LinearOpMode {
 
     /** Evolution Robotics
      * POV Teleop w/ speed switches
@@ -29,9 +25,11 @@ public class AWDTeleOpPOVMode extends LinearOpMode {
     private DcMotor motorFL, motorBL, motorFR, motorBR;
     double modifierVal = 0.75;
     boolean runFast, runSlow;
-    double left, left2;
-    double right, right2;
-    double max;
+    double powFL, powBL, powFR, powBR;
+    double powFL2, powBL2, powFR2, powBR2;
+    double powFL3, powBL3, powFR3, powBR3;
+    double deadzone = 0.1;
+    double ch1, ch3, ch4;
     double slowSpeed = 0.25;
     double fastSpeed = 1;
     double restingSpeed = 0.75;
@@ -116,42 +114,57 @@ public class AWDTeleOpPOVMode extends LinearOpMode {
                 runSlow = !runSlow;
             }
 
-            //calculates the final value going to the motors
-            left  = -gamepad1.left_stick_y + gamepad1.right_stick_x;
-            right = -gamepad1.left_stick_y - gamepad1.right_stick_x;
-            left2 = left * modifierVal;
-            right2 = right * modifierVal;
+            ch1 = -gamepad1.right_stick_x;
+            ch3 = -gamepad1.left_stick_y;
+            ch4 = -gamepad1.left_stick_x;
 
-            // Normalize the values so neither exceed +/- 1.0
-            max = Math.max(Math.abs(left2), Math.abs(right2));
-            if (max > 1.0)
-            {
-                left2 /= max;
-                right2 /= max;
+            powFL = ch3 + ch1 + ch4;
+            powBL = ch3 + ch1 - ch4;
+            powFR = ch3 - ch1 - ch4;
+            powBR = ch3 - ch1 + ch4;
+
+            if(Math.abs(powFL) > deadzone) {
+                powFL2 = powFL;
+            }
+            else {
+                powFL2 = 0;
             }
 
-            //adds a telemetry message telling what speed you are going at
-            telemetry.addData("Say", "Running at " + modifierVal + " times speed");
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.update();
+            if(Math.abs(powBL) > deadzone) {
+                powBL2 = powBL;
+            }
+            else {
+                powBL2 = 0;
+            }
 
-            /* code for the shovels
-            if(gamepad1.dpad_up) {
-                switchSides = !switchSides;
+            if(Math.abs(powFR) > deadzone) {
+                powFR2 = powFR;
             }
-            if(switchSides){
-                left2 = -left2;
-                right2 = -right2;
+            else {
+                powFR2 = 0;
             }
-            */
+
+            if(Math.abs(powBR) > deadzone) {
+                powBR2 = powBR;
+            }
+            else {
+                powBR2 = 0;
+            }
+
+
+            powFL3 = powFL2 * modifierVal;
+            powBL3 = powBL2 * modifierVal;
+            powFR3 = powFR2 * modifierVal;
+            powBR3 = powBR2 * modifierVal;
+
 
 
 
             //setting motor powers
-            motorFL.setPower(left2);
-            motorBL.setPower(left2);
-            motorFR.setPower(right2);
-            motorBR.setPower(right2);
+            motorFL.setPower(powFL3);
+            motorBL.setPower(powBL3);
+            motorFR.setPower(powFR3);
+            motorBR.setPower(powBR3);
         }
     }
 }

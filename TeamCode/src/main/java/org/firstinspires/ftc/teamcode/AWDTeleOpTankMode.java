@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import java.lang.reflect.Modifier;
 
 
-@TeleOp(name="AWDOpMode", group="TankOpMode")  // @Autonomous(...) is the other common choice
+@TeleOp(name="Tank AWD OpMode", group="Competition OpMode")  // @Autonomous(...) is the other common choice
 public class AWDTeleOpTankMode extends LinearOpMode {
 
     //hi its gaurav

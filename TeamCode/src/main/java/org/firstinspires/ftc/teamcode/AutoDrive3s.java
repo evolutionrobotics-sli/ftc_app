@@ -61,12 +61,12 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Pushbot: Auto Drive By Time", group="Pushbot")
+@Autonomous(name="DriveTime3s", group="Time Autonomous")
 public class AutoDrive3s extends LinearOpMode {
 
     /* Declare OpMode members. */
     private ElapsedTime     runtime = new ElapsedTime();
-    static final double     FORWARD_SPEED = 0.6;
+    static final double     FORWARD_SPEED = 0.2;
     static final double     TURN_SPEED    = 0.5;
     private DcMotor motorFL, motorBL, motorFR, motorBR;
 
@@ -99,7 +99,7 @@ public class AutoDrive3s extends LinearOpMode {
         motorFR.setPower(FORWARD_SPEED);
         motorBR.setPower(FORWARD_SPEED);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 3.0)) {
+        while (opModeIsActive() && (runtime.seconds() < 2.2)) {
             telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();
         }

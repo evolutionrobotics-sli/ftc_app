@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 @TeleOp(name="4WD Pov Mode - competition", group="Test OpModes")  // @Autonomous(...) is the other common choice]
+@Disabled
 public class AWDTeleOpJoystickTest extends LinearOpMode {
 
 //sorry for the primitive code whoever is using this
