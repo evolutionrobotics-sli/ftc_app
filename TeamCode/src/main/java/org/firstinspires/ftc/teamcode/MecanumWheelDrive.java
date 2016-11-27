@@ -23,16 +23,16 @@ public class MecanumWheelDrive extends LinearOpMode {
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor motorFL, motorBL, motorFR, motorBR;
-    double modifierVal = 0.75;
-    boolean runFast, runSlow;
-    double powFL, powBL, powFR, powBR;
-    double powFL2, powBL2, powFR2, powBR2;
-    double powFL3, powBL3, powFR3, powBR3;
-    double deadzone = 0.1;
-    double ch1, ch3, ch4;
-    double slowSpeed = 0.25;
-    double fastSpeed = 1;
-    double restingSpeed = 0.75;
+    private double modifierVal = 0.75;
+    private boolean runFast, runSlow;
+    private double powFL, powBL, powFR, powBR;
+    private double powFL2, powBL2, powFR2, powBR2;
+    private double powFL3, powBL3, powFR3, powBR3;
+    private double deadzone = 0.1;
+    private double ch1, ch3, ch4;
+    private double slowSpeed = 0.25;
+    private double fastSpeed = 1;
+    private double restingSpeed = 0.75;
     //code for the shovels
     //boolean switchSides;
 
@@ -91,12 +91,12 @@ public class MecanumWheelDrive extends LinearOpMode {
             //changing speed + resetting the switch, etc.
             //running fast
             if(runFast) {
+                runSlow = false;
                 if(modifierVal == restingSpeed) {
                     modifierVal = fastSpeed;
                 }
                 else {
                     modifierVal = restingSpeed;
-                    runSlow = false;
                 }
                 runFast = !runFast;
             }
@@ -104,23 +104,27 @@ public class MecanumWheelDrive extends LinearOpMode {
 
             //running slow
             if(runSlow) {
+                runFast = false;
                 if(modifierVal == restingSpeed) {
                     modifierVal = slowSpeed;
                 }
                 else{
                     modifierVal = restingSpeed;
-                    runFast = false;
                 }
                 runSlow = !runSlow;
             }
 
-            ch1 = -gamepad1.right_stick_x;
+            ch1 = gamepad1.right_stick_x;
             ch3 = -gamepad1.left_stick_y;
-            ch4 = -gamepad1.left_stick_x;
+            ch4 = gamepad1.left_stick_x;
 
+            //FL = 1
             powFL = ch3 + ch1 + ch4;
+            //BL = 3
             powBL = ch3 + ch1 - ch4;
+            //FR = 2
             powFR = ch3 - ch1 - ch4;
+            //BR = 4
             powBR = ch3 - ch1 + ch4;
 
             if(Math.abs(powFL) > deadzone) {
@@ -156,6 +160,13 @@ public class MecanumWheelDrive extends LinearOpMode {
             powBL3 = powBL2 * modifierVal;
             powFR3 = powFR2 * modifierVal;
             powBR3 = powBR2 * modifierVal;
+
+
+
+            telemetry.addData("Running at", modifierVal + "times speed");
+            telemetry.addData("Time until match ends", 230 - runtime.seconds());
+
+
 
 
 
